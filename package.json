@@ -9,19 +9,39 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@lucia-auth/adapter-sqlite": "^3.0.2",
+    "@node-rs/argon2": "^2.0.2",
+    "better-sqlite3": "^11.7.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "lucia": "^3.2.2",
+    "mime": "^4.0.6",
+    "motion": "^11.15.0",
+    "next": "15.1.2",
+    "next-themes": "^0.4.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.2"
+    "react-modal": "^3.16.3",
+    "slug": "^10.0.0",
+    "styled-components": "^6.1.13",
+    "use-debounce": "^10.0.4",
+    "zod": "^3.24.1",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "@types/react-modal": "^3.16.3",
+    "@types/slug": "^5.0.9",
     "eslint": "^9",
     "eslint-config-next": "15.1.2",
-    "@eslint/eslintrc": "^3"
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5",
+    "uid": "^2.0.2"
   }
 }
