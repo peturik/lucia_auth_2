@@ -1,6 +1,6 @@
 import PostsTable from "./_components/post-table";
 import Search from "@/app/components/search";
-import { fetchArticlesPages } from "@/lib/fetchPost";
+import { fetchCountPosts } from "@/lib/fetchPost";
 import Pagination from "@/app/components/pagination";
 import { Suspense } from "react";
 import { CreatePost } from "./_components/buttons";
@@ -14,7 +14,7 @@ export default async function Page(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = await fetchArticlesPages(query);
+  const totalPages = await fetchCountPosts(query);
 
   return (
     <main>

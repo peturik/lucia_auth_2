@@ -26,3 +26,7 @@ h5,
 h6 {
   font-family: var(--font-alegreya);
 }
+body .w-md-editor-text-pre > code,
+body .w-md-editor-text-input {
+  font-size: 16px !important;
+}

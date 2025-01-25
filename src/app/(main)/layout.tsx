@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from "./ui/header";
 import Footer from "./ui/footer";
-// import "./style.css";
+import "./style.css";
 import { validateRequest } from "@/lib/auth";
 
 export const metadata: Metadata = {

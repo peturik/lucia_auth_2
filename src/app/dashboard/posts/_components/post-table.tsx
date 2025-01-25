@@ -12,7 +12,7 @@ export default async function PostsTable({
 }) {
   const posts = (await fetchFilteredPosts(
     query,
-    currentPage
+    currentPage,
   )) as unknown as Post[];
 
   return (
@@ -92,7 +92,7 @@ export default async function PostsTable({
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white dark:bg-gray-700 dark:text-gray-300">
+            <tbody className="bg-white dark:bg-gray-600 dark:text-gray-300">
               {posts?.map((post: Post) => (
                 <tr
                   key={post.id}

@@ -14,7 +14,7 @@ const postSchema = PostSchema();
 /* INSERT INTO */
 export async function createPost(
   prevState: string | undefined,
-  formData: FormData
+  formData: FormData,
 ) {
   try {
     let { title, slug, description, body, tags, image, status } =
@@ -29,7 +29,7 @@ export async function createPost(
         status: formData.get("status"),
       });
 
-    console.log(image);
+    // console.log(image);
     if (!status) status = 0;
 
     let image_url = "";
@@ -40,7 +40,19 @@ export async function createPost(
     }
 
     const postId = uid();
-    const allTags = db.prepare(`SELECT * FROM tags;`).all();
+
+    const allTags = db.prepare(`SELECT title FROM tags;`).all();
+    const tagsForm = tags?.split(",");
+    const arrTags = allTags.map((tag: any) => tag?.title);
+
+    const newTags = tagsForm.reduce((acc, val) => {
+      !arrTags.includes(val) && acc.push(val as never);
+      return acc;
+    }, []);
+
+    newTags.map((tag) => {
+      db.prepare(`INSERT INTO tags (title) VALUES (?)`).run(tag);
+    });
 
     const stmt = db.prepare(`
               INSERT INTO posts (id, title, slug, description, body, tags, image_url, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -53,7 +65,7 @@ export async function createPost(
       body,
       tags,
       image_url,
-      status
+      status,
     ); //gallery?.toString(),
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -72,7 +84,7 @@ export async function createPost(
 export async function updatePost(
   prevState: string | undefined,
   // id: string,
-  formData: FormData
+  formData: FormData,
 ) {
   try {
     let { id, title, slug, description, body, tags, image, status } =
@@ -87,7 +99,8 @@ export async function updatePost(
         status: formData.get("status"),
       });
 
-    console.log(tags);
+    //console.log(description);
+    //return;
 
     let image_url = "";
 
@@ -119,7 +132,7 @@ export async function updatePost(
                 tags = ?,
                 image_url = ?,
                 status = ?
-            WHERE id = ?`
+            WHERE id = ?`,
     ).run(title, slug, description, body, tags, image_url, status, id);
   } catch (error) {
     if (error instanceof z.ZodError) {

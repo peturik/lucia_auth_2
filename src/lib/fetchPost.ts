@@ -23,7 +23,7 @@ export async function fetchFilteredPosts(query: string, currentPage: number) {
   }
 }
 
-export async function fetchArticlesPages(query: string) {
+export async function fetchCountPosts(query: string) {
   try {
     const sql = `SELECT COUNT(*) as count
       FROM posts

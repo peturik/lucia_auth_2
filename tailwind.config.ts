@@ -14,7 +14,6 @@ export default {
         inter: ["var(--font-inter)", ...fontFamily.sans],
         lusitana: ["var(--font-lusitana)", ...fontFamily.sans],
         alegreya: ["var(--font-alegreya)", ...fontFamily.sans],
-        // danfo: ["var(--font-danfo)", ...fontFamily.sans],
         "danfo-regular": ["var(--font-danfo-regular)", ...fontFamily.sans],
         "permanent-market": [
           "var(--font-permanent-market)",

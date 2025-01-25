@@ -2,7 +2,7 @@
 import { updatePost } from "../../actions";
 import Link from "next/link";
 import Image from "next/image";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import slug from "slug";
 import { Button } from "./button";
 import type { Post } from "@/types/post";
@@ -10,6 +10,7 @@ import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { AnimatePresence } from "motion/react";
 import type { Tags } from "@/types/post";
 import ModalPost from "./modal-post";
+import MDEditor from "@uiw/react-md-editor";
 
 type Props = {
   post: Post;
@@ -20,13 +21,27 @@ export default function EditFormPost({ post, tags }: Props) {
   const [title, setTitle] = useState(post.title);
   const [status, setStatus] = useState(post.status);
   const [image, setImage] = useState(
-    post.image_url ? `/${post.image_url}` : ""
+    post.image_url ? `/${post.image_url}` : "",
   );
   const [selectedOption, setSelectedOption] = useState<string[]>(
-    post.tags?.split(",") as string[]
+    post.tags?.split(",") as string[],
   );
   const [isOpen, setIsOpen] = useState(false);
   const [val, setVal] = useState("");
+  const [valueDesc, setValueDesc] = useState<string | undefined>(
+    post.description,
+  );
+  const [valueBody, setValueBody] = useState<string | undefined>(post.body);
+
+  const [theme, setTheme] = useState("");
+
+  useEffect(() => {
+    const th = localStorage.getItem("theme");
+
+    if (th) {
+      setTheme(th);
+    }
+  });
 
   function handler(e: string) {
     if (selectedOption.includes(e)) {
@@ -41,7 +56,7 @@ export default function EditFormPost({ post, tags }: Props) {
 
   const [errorMessage, formAction, isPending] = useActionState(
     updatePost,
-    undefined
+    undefined,
   );
 
   return (
@@ -92,40 +107,61 @@ export default function EditFormPost({ post, tags }: Props) {
           </div>
 
           {/* Description */}
+
           <div className="mb-4">
             <label htmlFor="body" className="mb-2 block text-sm font-medium">
               Description
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
+                <div className="mb-4" data-color-mode={theme}>
+                  <MDEditor
+                    value={valueDesc}
+                    onChange={setValueDesc}
+                    height={300}
+                    textareaProps={{
+                      placeholder: "Please enter Markdown text",
+                    }}
+                  />
+                </div>
                 <textarea
                   id="description"
                   name="description"
-                  placeholder="Enter your text"
-                  rows={5}
-                  defaultValue={post.description}
-                  className=" input-style"
+                  value={valueDesc}
+                  readOnly
                   required
+                  style={{ display: "none" }}
                 />
               </div>
             </div>
           </div>
 
           {/* Body */}
+
           <div className="mb-4">
             <label htmlFor="body" className="mb-2 block text-sm font-medium">
               Body
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
+                <div className="mb-4" data-color-mode={theme}>
+                  <MDEditor
+                    value={valueBody}
+                    onChange={setValueBody}
+                    height={500}
+                    textareaProps={{
+                      placeholder: "Please enter Markdown text",
+                    }}
+                  />
+                </div>
+
                 <textarea
                   id="body"
                   name="body"
-                  placeholder="Enter your text"
-                  rows={12}
-                  defaultValue={post.body}
-                  className="input-style"
+                  value={valueBody}
+                  readOnly
                   required
+                  style={{ display: "none" }}
                 />
               </div>
             </div>

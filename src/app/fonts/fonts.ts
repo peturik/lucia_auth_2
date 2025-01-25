@@ -26,12 +26,6 @@ export const alegreya = Alegreya({
   display: "swap",
 });
 
-// export const danfo = Danfo({
-//   subsets: ["latin"],
-//   variable: "--font-danfo",
-//   display: "swap",
-// });
-
 export const permanentMarker = Permanent_Marker({
   subsets: ["latin"],
   weight: ["400"],
