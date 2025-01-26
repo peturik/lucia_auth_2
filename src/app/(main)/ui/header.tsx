@@ -1,11 +1,11 @@
 import React from "react";
 import Navbar from "./navbar";
 import Link from "next/link";
-import { validateRequest } from "@/lib/auth";
+// import { validateRequest } from "@/lib/auth";
 import MobileNav from "./MobileNav";
 
 export default async function Header() {
-  const { user } = await validateRequest();
+  // const { user } = await validateRequest();
 
   return (
     <nav className="bg-white dark:bg-[#1111]">
@@ -21,7 +21,7 @@ export default async function Header() {
 
         <MobileNav />
 
-        <Navbar user={user} />
+        <Navbar /* user={user} */ />
       </div>
     </nav>
   );

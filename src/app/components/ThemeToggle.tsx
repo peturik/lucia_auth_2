@@ -1,4 +1,3 @@
-// components/ThemeToggle.tsx
 "use client";
 
 import { useTheme } from "next-themes";
@@ -20,7 +19,7 @@ const ThemeToggle = () => {
     // setTheme(theme === "dark" ? "light" : "dark");
     setTheme(theme === "dark" || resolvedTheme === "dark" ? "light" : "dark");
     storeSetTheme(
-      theme === "dark" || resolvedTheme === "dark" ? "light" : "dark",
+      theme === "dark" || resolvedTheme === "dark" ? "light" : "dark"
     );
   };
 

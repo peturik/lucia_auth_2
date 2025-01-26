@@ -17,7 +17,7 @@ export async function createPost(
   formData: FormData,
 ) {
   try {
-    let { title, slug, description, body, tags, image, status } =
+    const { title, slug, description, body, tags, image, status } =
       postSchema.parse({
         id: "",
         title: formData.get("title"),
@@ -30,10 +30,10 @@ export async function createPost(
       });
 
     // console.log(image);
-    if (!status) status = 0;
+    let statusValue: number = 0;
+    if (status) statusValue = status;
 
     let image_url = "";
-    let post;
 
     if (image?.size) {
       [image_url] = await saveFiles([image], slug);
@@ -41,12 +41,14 @@ export async function createPost(
 
     const postId = uid();
 
-    const allTags = db.prepare(`SELECT title FROM tags;`).all();
+    const allTags = db.prepare(`SELECT title FROM tags;`).all() as {
+      title: string;
+    }[];
     const tagsForm = tags?.split(",");
-    const arrTags = allTags.map((tag: any) => tag?.title);
+    const arrTags = allTags.map((tag) => tag.title);
 
     const newTags = tagsForm.reduce((acc, val) => {
-      !arrTags.includes(val) && acc.push(val as never);
+      if (!arrTags.includes(val)) acc.push(val as never);
       return acc;
     }, []);
 
@@ -54,19 +56,11 @@ export async function createPost(
       db.prepare(`INSERT INTO tags (title) VALUES (?)`).run(tag);
     });
 
-    const stmt = db.prepare(`
+    db.prepare(
+      `
               INSERT INTO posts (id, title, slug, description, body, tags, image_url, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            `);
-    post = stmt.run(
-      postId,
-      title,
-      slug,
-      description,
-      body,
-      tags,
-      image_url,
-      status,
-    ); //gallery?.toString(),
+            `,
+    ).run(postId, title, slug, description, body, tags, image_url, statusValue); //gallery?.toString(),
   } catch (error) {
     if (error instanceof z.ZodError) {
       console.log(error);
@@ -87,7 +81,7 @@ export async function updatePost(
   formData: FormData,
 ) {
   try {
-    let { id, title, slug, description, body, tags, image, status } =
+    const { id, title, slug, description, body, tags, image, status } =
       postSchema.parse({
         id: formData.get("id"),
         title: formData.get("title"),
@@ -147,7 +141,7 @@ export async function updatePost(
 }
 
 /* DELETE FROM */
-export async function deletePost(id: string, formData: FormData) {
+export async function deletePost(id: string) {
   const result = db.prepare(`SELECT slug FROM posts WHERE id = ?`).get(id) as {
     slug: string;
   };

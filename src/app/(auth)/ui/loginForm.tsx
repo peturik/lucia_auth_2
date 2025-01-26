@@ -72,7 +72,7 @@ export function LoginForm() {
           </>
         )}
         <p className="text-center text-xs text-gray-600 dark:text-gray-400 pb-2 pt-5">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link
             href="/register"
             className="font-semibold text-gray-800 dark:text-gray-200"

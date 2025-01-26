@@ -8,7 +8,10 @@ export function Form({
   action,
 }: {
   children: React.ReactNode;
-  action: (prevState: any, formData: FormData) => Promise<ActionResult>;
+  action: (
+    prevState: ActionResult | Promise<ActionResult>,
+    formData: FormData
+  ) => Promise<ActionResult>;
 }) {
   const [state, formAction] = useActionState(action, {
     error: null,

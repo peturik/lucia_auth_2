@@ -1,5 +1,5 @@
 import mime from "mime";
-import * as dateFn from "date-fns";
+// import * as dateFn from "date-fns";
 import { join } from "path";
 import { mkdir, stat, writeFile } from "fs/promises";
 
@@ -10,8 +10,8 @@ export async function saveFiles(files: File[], dir: string) {
 
   try {
     await stat(uploadDir);
-  } catch (error: any) {
-    if (error.code === "ENOENT") {
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
       await mkdir(uploadDir, { recursive: true });
     } else {
       console.error(

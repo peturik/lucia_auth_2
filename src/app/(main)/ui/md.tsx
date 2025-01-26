@@ -2,11 +2,11 @@
 import MDEditor from "@uiw/react-md-editor";
 import { useThemeStore } from "@/stores/useThemeStore";
 
-export default function Md({ source }: any) {
+export default function Md({ source }: { source: string }) {
   const theme = useThemeStore((state) => state.theme);
-  console.log(theme);
 
-  let bg = theme === "dark" ? "#1111" : "#fff";
+  const bg = theme === "light" ? "#fff" : "#1111";
+
   return (
     <div data-color-mode={theme}>
       <MDEditor.Markdown

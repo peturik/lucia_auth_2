@@ -17,6 +17,4 @@
 
 .wmde-markdown pre > code {
   white-space: pre-wrap !important;
-  background: transparent;
-  border: 0;
 }

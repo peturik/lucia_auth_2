@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import RegisterForm from "../ui/registerForm";

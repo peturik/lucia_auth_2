@@ -17,7 +17,7 @@ export default async function GetPosts({
 
   return (
     <div className="flex flex-wrap">
-      {posts?.map((post: any) => {
+      {posts?.map((post: Post) => {
         return (
           <div className="mb-12" key={post.id}>
             <div className="text-3xl font-bold"> {post.title}</div>

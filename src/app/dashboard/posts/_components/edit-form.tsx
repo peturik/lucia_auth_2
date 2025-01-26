@@ -2,7 +2,7 @@
 import { updatePost } from "../../actions";
 import Link from "next/link";
 import Image from "next/image";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import slug from "slug";
 import { Button } from "./button";
 import type { Post } from "@/types/post";
@@ -11,6 +11,7 @@ import { AnimatePresence } from "motion/react";
 import type { Tags } from "@/types/post";
 import ModalPost from "./modal-post";
 import MDEditor from "@uiw/react-md-editor";
+import { useThemeStore } from "@/stores/useThemeStore";
 
 type Props = {
   post: Post;
@@ -21,34 +22,25 @@ export default function EditFormPost({ post, tags }: Props) {
   const [title, setTitle] = useState(post.title);
   const [status, setStatus] = useState(post.status);
   const [image, setImage] = useState(
-    post.image_url ? `/${post.image_url}` : "",
+    post.image_url ? `/${post.image_url}` : ""
   );
   const [selectedOption, setSelectedOption] = useState<string[]>(
-    post.tags?.split(",") as string[],
+    post.tags?.split(",") as string[]
   );
   const [isOpen, setIsOpen] = useState(false);
   const [val, setVal] = useState("");
   const [valueDesc, setValueDesc] = useState<string | undefined>(
-    post.description,
+    post.description
   );
   const [valueBody, setValueBody] = useState<string | undefined>(post.body);
-
-  const [theme, setTheme] = useState("");
-
-  useEffect(() => {
-    const th = localStorage.getItem("theme");
-
-    if (th) {
-      setTheme(th);
-    }
-  });
+  const theme = useThemeStore((state) => state.theme);
 
   function handler(e: string) {
     if (selectedOption.includes(e)) {
       const arr = selectedOption.filter((item) => item !== e);
       setSelectedOption(arr);
     } else {
-      let arr = [...selectedOption, e];
+      const arr = [...selectedOption, e];
       setSelectedOption(arr.filter((item) => item !== ""));
       if (!e.length) setIsOpen(true);
     }
@@ -56,7 +48,7 @@ export default function EditFormPost({ post, tags }: Props) {
 
   const [errorMessage, formAction, isPending] = useActionState(
     updatePost,
-    undefined,
+    undefined
   );
 
   return (

@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Post } from "@/types/post";
 import { DeletePost, UpdatePost } from "./buttons";
 import { fetchFilteredPosts } from "@/lib/fetchPost";
+import { Suspense } from "react";
 
 export default async function PostsTable({
   query,
@@ -12,7 +13,7 @@ export default async function PostsTable({
 }) {
   const posts = (await fetchFilteredPosts(
     query,
-    currentPage,
+    currentPage
   )) as unknown as Post[];
 
   return (
@@ -54,7 +55,9 @@ export default async function PostsTable({
                       </p>
                     </div>
                     <div className="flex justify-end gap-2">
-                      <UpdatePost id={post.id} />
+                      <Suspense fallback={<h2>Loading...</h2>}>
+                        <UpdatePost id={post.id} />
+                      </Suspense>
                       <DeletePost id={post.id} title={post.title} />
                     </div>
                   </div>

@@ -1,10 +1,4 @@
-import {
-  Inter,
-  Lusitana,
-  Alegreya,
-  Danfo,
-  Permanent_Marker,
-} from "next/font/google";
+import { Inter, Lusitana, Alegreya, Permanent_Marker } from "next/font/google";
 
 export const inter = Inter({
   subsets: ["latin"],

@@ -3,7 +3,6 @@ import {
   AtSymbolIcon,
   KeyIcon,
   UserCircleIcon,
-  ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "./button";
@@ -104,7 +103,7 @@ export default function RegisterForm() {
             <div>
               <p className="text-sm text-red-500 mt-2">Password must:</p>
               <ul>
-                {state.errors.password.map((error: any) => (
+                {state.errors.password.map((error: string) => (
                   <li className="text-sm text-red-500" key={error}>
                     <p className="">{error}</p>
                   </li>

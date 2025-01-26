@@ -26,7 +26,7 @@ export default function CreateFormPost({ tags }: { tags: Tags[] }) {
       const arr = selectedOption.filter((item) => item !== evalue);
       setSelectedOption(arr);
     } else {
-      let arr = [...selectedOption, evalue];
+      const arr = [...selectedOption, evalue];
       setSelectedOption(arr.filter((item) => item !== ""));
       if (!evalue.length) setIsOpen(true);
     }
