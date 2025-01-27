@@ -1,8 +1,5 @@
-// import { getDatabase } from "./db";
-// import { fetchAll } from "./services";
 import { db } from "./db";
 
-// const db = getDatabase();
 const ITEMS_PER_PAGE = 6;
 
 export async function fetchFilteredPosts(query: string, currentPage: number) {
@@ -14,6 +11,7 @@ export async function fetchFilteredPosts(query: string, currentPage: number) {
               body LIKE '%${query}%' OR
               title LIKE '%${query}%' OR
               slug LIKE '%${query}%'
+            ORDER BY created_at DESC
             LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
         `);
     const data = stmt.all();

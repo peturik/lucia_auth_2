@@ -1,13 +1,16 @@
 "use client";
-
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+// import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { TextField } from "@mui/material";
+import { useThemeStore } from "@/stores/useThemeStore";
 
-export default function Search({ placeholder }: { placeholder: string }) {
+export default function Search() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const themeMode = useThemeStore((state) => state.theme);
 
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
@@ -21,12 +24,18 @@ export default function Search({ placeholder }: { placeholder: string }) {
     replace(`${pathname}?${params.toString()}`);
   }, 300);
 
-  return (
+  const darkTheme = createTheme({
+    palette: {
+      mode: themeMode,
+    },
+  });
+
+  /*return (
     <div className="relative flex flex-1 flex-shrink-0">
       <label htmlFor="search" className="sr-only">
         Search
       </label>
-      <input
+           <input
         className="peer block w-full rounded-md border  py-[9px] pl-10 text-sm outline-2 
         dark:bg-gray-800 
         hover:dark:bg-gray-900 
@@ -45,6 +54,24 @@ export default function Search({ placeholder }: { placeholder: string }) {
         defaultValue={searchParams.get("query")?.toString()}
       />
       <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:peer-focus:text-gray-300" />
+    </div>
+  ); */
+  return (
+    <div className="relative flex flex-1 flex-shrink-0">
+      <ThemeProvider theme={darkTheme}>
+        <TextField
+          id="standard-search"
+          name="search"
+          label="Search"
+          type="search"
+          variant="standard"
+          fullWidth
+          onChange={(e) => {
+            handleSearch(e.target.value);
+          }}
+          defaultValue={searchParams.get("query")?.toString()}
+        />
+      </ThemeProvider>
     </div>
   );
 }

@@ -9,16 +9,21 @@ import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { AnimatePresence } from "motion/react";
 import type { Tags } from "@/types/post";
 import ModalPost from "./modal-post";
+import MDEditor from "@uiw/react-md-editor";
+import { useThemeStore } from "@/stores/useThemeStore";
 
 export default function CreateFormPost({ tags }: { tags: Tags[] }) {
   const [title, setTitle] = useState("");
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [val, setVal] = useState("");
+  const [valueDesc, setValueDesc] = useState("");
+  const [valueBody, setValueBody] = useState("");
+  const theme = useThemeStore((state) => state.theme);
 
   const [errorMessage, formAction, isPending] = useActionState(
     createPost,
-    undefined
+    undefined,
   );
 
   function handler(evalue: string) {
@@ -85,14 +90,21 @@ export default function CreateFormPost({ tags }: { tags: Tags[] }) {
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
+                <div className="mb-4" data-color-mode={theme}>
+                  <MDEditor
+                    value={valueDesc}
+                    height={300}
+                    onChange={(e) => setValueDesc(e || "")}
+                  />
+                </div>
+
                 <textarea
                   id="description"
                   name="description"
-                  placeholder="Enter your text"
-                  rows={5}
-                  defaultValue={""}
-                  className="input-style"
+                  value={valueDesc}
+                  readOnly
                   required
+                  style={{ display: "none" }}
                 />
               </div>
             </div>
@@ -105,14 +117,21 @@ export default function CreateFormPost({ tags }: { tags: Tags[] }) {
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
+                <div className="mb-4" data-color-mode={theme}>
+                  <MDEditor
+                    value={valueBody}
+                    height={500}
+                    onChange={(e) => setValueBody(e || "")}
+                  />
+                </div>
+
                 <textarea
                   id="body"
                   name="body"
-                  placeholder="Enter your text"
-                  rows={12}
-                  defaultValue={""}
-                  className="input-style"
+                  value={valueBody}
+                  readOnly
                   required
+                  style={{ display: "none" }}
                 />
               </div>
             </div>

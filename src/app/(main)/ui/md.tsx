@@ -1,6 +1,6 @@
 "use client";
-import MDEditor from "@uiw/react-md-editor";
 import { useThemeStore } from "@/stores/useThemeStore";
+import MarkdownPreview from "@uiw/react-markdown-preview";
 
 export default function Md({ source }: { source: string }) {
   const theme = useThemeStore((state) => state.theme);
@@ -9,12 +9,22 @@ export default function Md({ source }: { source: string }) {
 
   return (
     <div data-color-mode={theme}>
-      <MDEditor.Markdown
+      <MarkdownPreview
         source={source}
+        className="font-alegreya"
+        rehypeRewrite={(node, _, parent) => {
+          // Перевіряємо, чи вузол є HTML-елементом
+          if (
+            "tagName" in node &&
+            node.tagName === "a" &&
+            parent &&
+            "tagName" in parent &&
+            /^h(1|2|3|4|5|6)/.test(parent.tagName)
+          ) {
+            parent.children = parent.children.slice(1);
+          }
+        }}
         style={{
-          whiteSpace: "pre-wrap",
-          padding: "30px",
-          overflow: "auto",
           background: bg,
         }}
       />

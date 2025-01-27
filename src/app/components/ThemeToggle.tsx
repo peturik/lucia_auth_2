@@ -10,16 +10,28 @@ const ThemeToggle = () => {
   const storeSetTheme = useThemeStore((state) => state.setTheme);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const localTheme = localStorage.getItem("theme");
+      if (localTheme && localTheme === "system") {
+        if (
+          typeof window !== "undefined" &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+        ) {
+          storeSetTheme("dark");
+        } else {
+          storeSetTheme("light");
+        }
+      }
+    }
     setMounted(true);
-  }, []);
+  }, [storeSetTheme]);
 
   if (!mounted) return null;
 
   const toggleTheme = () => {
-    // setTheme(theme === "dark" ? "light" : "dark");
     setTheme(theme === "dark" || resolvedTheme === "dark" ? "light" : "dark");
     storeSetTheme(
-      theme === "dark" || resolvedTheme === "dark" ? "light" : "dark"
+      theme === "dark" || resolvedTheme === "dark" ? "light" : "dark",
     );
   };
 

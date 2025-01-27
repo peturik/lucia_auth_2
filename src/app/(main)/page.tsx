@@ -22,7 +22,7 @@ export default async function MainPage(props: {
         <div className="md:flex block justify-between my-10">
           <div className="font-bold text-4xl">Font font-geist-sans</div>
           <div className=" basis-1/2 md:mt-auto mt-6">
-            <Search placeholder="Search posts..." />
+            <Search />
           </div>
         </div>
         <div className="border-b-2 border-gray-600"></div>
