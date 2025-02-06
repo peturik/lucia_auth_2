@@ -5,6 +5,7 @@ import { useDebouncedCallback } from "use-debounce";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { TextField } from "@mui/material";
 import { useThemeStore } from "@/stores/useThemeStore";
+import { motion } from "motion/react";
 
 export default function Search() {
   const searchParams = useSearchParams();
@@ -57,7 +58,14 @@ export default function Search() {
     </div>
   ); */
   return (
-    <div className="relative flex flex-1 flex-shrink-0">
+    <motion.div
+      className="relative flex flex-1 flex-shrink-0"
+      // initial={{ opacity: 0, scale: 0 }}
+      // animate={{ opacity: 1, scale: 1 }}
+      initial={{ width: 0 }}
+      animate={{ width: "auto" }}
+      transition={{ duration: 0.3 }}
+    >
       <ThemeProvider theme={darkTheme}>
         <TextField
           id="standard-search"
@@ -72,6 +80,6 @@ export default function Search() {
           defaultValue={searchParams.get("query")?.toString()}
         />
       </ThemeProvider>
-    </div>
+    </motion.div>
   );
 }

@@ -1,9 +1,11 @@
 import { Suspense } from "react";
-import GetPosts from "../(main)/ui/getPosts";
+import AllPosts from "./ui/allPosts";
 import Search from "../components/search";
 import Pagination from "../components/pagination";
 import { fetchCountPosts } from "@/lib/fetchPost";
 import "./style.css";
+import { fetchFilteredPosts } from "@/lib/fetchPost";
+import type { Post } from "@/types/post";
 
 export default async function MainPage(props: {
   searchParams?: Promise<{
@@ -15,6 +17,8 @@ export default async function MainPage(props: {
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await fetchCountPosts(query);
+
+  const posts = fetchFilteredPosts(query, currentPage) as Promise<Post[]>;
 
   return (
     <main>
@@ -31,7 +35,7 @@ export default async function MainPage(props: {
           <div className="sm:basis-3/12 sm:block hidden">sidebar</div>
           <div className="sm:basis-9/12">
             <Suspense key={query + currentPage} fallback={<h2>Loading...</h2>}>
-              <GetPosts query={query} currentPage={currentPage} />
+              <AllPosts posts={posts} />
             </Suspense>
           </div>
         </div>

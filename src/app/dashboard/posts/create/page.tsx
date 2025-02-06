@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import CreateFormPost from "../_components/create-form";
 import Breadcrumbs from "../_components/breadcrumbs";
 import { db } from "@/lib/db";
@@ -25,7 +25,9 @@ export default function Page() {
           },
         ]}
       />
-      <CreateFormPost tags={tags} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <CreateFormPost tags={tags} />
+      </Suspense>
     </div>
   );
 }

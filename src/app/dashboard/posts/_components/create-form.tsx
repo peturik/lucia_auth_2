@@ -1,5 +1,4 @@
 "use client";
-
 import { createPost } from "../../actions";
 import Link from "next/link";
 import { useState, useActionState } from "react";
@@ -11,6 +10,7 @@ import type { Tags } from "@/types/post";
 import ModalPost from "./modal-post";
 import MDEditor from "@uiw/react-md-editor";
 import { useThemeStore } from "@/stores/useThemeStore";
+import ButtonCheckBox from "./button-checkbox";
 
 export default function CreateFormPost({ tags }: { tags: Tags[] }) {
   const [title, setTitle] = useState("");
@@ -19,11 +19,17 @@ export default function CreateFormPost({ tags }: { tags: Tags[] }) {
   const [val, setVal] = useState("");
   const [valueDesc, setValueDesc] = useState("");
   const [valueBody, setValueBody] = useState("");
+  const [status, setStatus] = useState(1);
+
   const theme = useThemeStore((state) => state.theme);
+
+  const changeStatus = (val: boolean) => {
+    setStatus(val ? 1 : 0);
+  };
 
   const [errorMessage, formAction, isPending] = useActionState(
     createPost,
-    undefined,
+    undefined
   );
 
   function handler(evalue: string) {
@@ -190,14 +196,20 @@ export default function CreateFormPost({ tags }: { tags: Tags[] }) {
           <div className="mb-4">
             <div className="relative mt-2 rounded-md">
               <div className="relative">
+                <ButtonCheckBox status={status} changeStatus={changeStatus} />
+
                 <input
                   id="status"
                   name="status"
-                  type="checkbox"
-                  value="1"
-                  defaultChecked
+                  type="text"
+                  value={status}
+                  readOnly
+                  // defaultChecked
                 />
-                <label htmlFor="status"> Status</label>
+                <label htmlFor="status">
+                  {" "}
+                  <b>Status</b>
+                </label>
               </div>
             </div>
           </div>

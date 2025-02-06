@@ -1,6 +1,8 @@
 import PostsTable from "./_components/post-table";
 import Search from "@/app/components/search";
 import { fetchCountPosts } from "@/lib/fetchPost";
+import { fetchFilteredPosts } from "@/lib/fetchPost";
+import type { Post } from "@/types/post";
 import Pagination from "@/app/components/pagination";
 import { Suspense } from "react";
 import { CreatePost } from "./_components/buttons";
@@ -16,6 +18,11 @@ export default async function Page(props: {
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = await fetchCountPosts(query);
 
+  const posts = (await fetchFilteredPosts(
+    query,
+    currentPage
+  )) as unknown as Post[];
+
   return (
     <main>
       <div className="w-full">
@@ -27,7 +34,7 @@ export default async function Page(props: {
           <CreatePost />
         </div>
         <Suspense key={query + currentPage} fallback={<h2>Loading...</h2>}>
-          <PostsTable query={query} currentPage={currentPage} />
+          <PostsTable posts={posts} />
         </Suspense>
 
         <div className="mt-5 flex w-full justify-center">

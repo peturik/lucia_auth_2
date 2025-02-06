@@ -1,20 +1,23 @@
 import Image from "next/image";
+import { db } from "@/lib/db";
 import type { Post } from "@/types/post";
 import { DeletePost, UpdatePost } from "./buttons";
-import { fetchFilteredPosts } from "@/lib/fetchPost";
 import { Suspense } from "react";
+import ButtonCheckBox from "./button-checkbox";
 
-export default async function PostsTable({
-  query,
-  currentPage,
-}: {
-  query: string;
-  currentPage: number;
-}) {
-  const posts = (await fetchFilteredPosts(
-    query,
-    currentPage
-  )) as unknown as Post[];
+export default async function PostsTable({ posts }: { posts: Post[] }) {
+  const changeStatus = async (val: boolean, id: string) => {
+    "use server";
+    try {
+      const valNum = val === true ? 1 : 0;
+      const res = db
+        .prepare(`UPDATE posts SET status = ? WHERE id = ?`)
+        .run(valNum, id);
+      console.log(res);
+    } catch (error) {
+      console.log(`Error is: ${error}`);
+    }
+  };
 
   return (
     <div className="mt-6 flow-root">
@@ -122,12 +125,16 @@ export default async function PostsTable({
                     {post.body.slice(0, 50)}...
                   </td>
 
-                  <td className="whitespace-normal px-3 py-3 ">
+                  <td className="whitespace-normal px-3 py-3">
                     {post.created_at}
                   </td>
 
-                  <td className="whitespace-normal px-3 py-3 ">
-                    {post.status ? "Yes" : "No"}
+                  <td className="whitespace-normal px-3 py-3 text-center">
+                    <ButtonCheckBox
+                      status={post.status}
+                      changeStatus={changeStatus}
+                      postId={post.id}
+                    />
                   </td>
 
                   <td className="whitespace-normal py-3 pl-6 pr-3">

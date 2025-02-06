@@ -2,18 +2,38 @@ import { motion } from "motion/react";
 import styled from "styled-components";
 
 type Props = {
-  onClose: () => void;
   title: string;
-  handler: (evalue: string) => void;
   val: string;
+  onClose: () => void;
+  handler: (evalue: string) => void;
   setVal: (val: string) => void;
 };
 
+const Overlay = styled(motion.div)`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+`;
+
+const ModalCard = styled(motion.div)`
+  padding: 20px 30px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  background-color: #efefef;
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.6);
+`;
+
 export default function ModalPost({
-  onClose,
   title,
-  handler,
   val,
+  onClose,
+  handler,
   setVal,
 }: Props) {
   return (
@@ -81,23 +101,3 @@ export default function ModalPost({
     </Overlay>
   );
 }
-
-const Overlay = styled(motion.div)`
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-`;
-
-const ModalCard = styled(motion.div)`
-  padding: 20px 30px;
-  border-radius: 8px;
-  max-width: 500px;
-  width: 100%;
-  text-align: center;
-  background-color: #efefef;
-  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.6);
-`;

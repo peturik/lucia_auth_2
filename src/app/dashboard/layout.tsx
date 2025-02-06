@@ -10,7 +10,9 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className={`font-lusitana bg-gray-100 dark:bg-black`}>
-      <div className="flex max-w-6xl mx-auto h-screen flex-col md:flex-row md:overflow-hidden ">
+      <div className="flex  mx-auto h-screen flex-col md:flex-row md:overflow-hidden ">
+        {" "}
+        {/* max-w-6xl */}
         <div className="w-full flex-none md:w-64 ">
           <SideNav />
         </div>

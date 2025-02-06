@@ -18,3 +18,12 @@
 .wmde-markdown pre > code {
   white-space: pre-wrap !important;
 }
+.wmde-markdown table {
+  max-width: 650px !important;
+}
+/* 
+@media screen and (max-width: 600px) {
+  .wmde-markdown table {
+    display: none !important;
+  }
+} */

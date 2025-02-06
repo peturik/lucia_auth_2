@@ -12,6 +12,7 @@ import type { Tags } from "@/types/post";
 import ModalPost from "./modal-post";
 import MDEditor from "@uiw/react-md-editor";
 import { useThemeStore } from "@/stores/useThemeStore";
+import ButtonCheckBox from "./button-checkbox";
 
 type Props = {
   post: Post;
@@ -20,17 +21,17 @@ type Props = {
 
 export default function EditFormPost({ post, tags }: Props) {
   const [title, setTitle] = useState(post.title);
-  const [status, setStatus] = useState(post.status);
+  const [status, setStatus] = useState<number>(post.status);
   const [image, setImage] = useState(
-    post.image_url ? `/${post.image_url}` : "",
+    post.image_url ? `/${post.image_url}` : ""
   );
   const [selectedOption, setSelectedOption] = useState<string[]>(
-    post.tags?.split(",") as string[],
+    post.tags?.split(",") as string[]
   );
   const [isOpen, setIsOpen] = useState(false);
   const [val, setVal] = useState("");
   const [valueDesc, setValueDesc] = useState<string | undefined>(
-    post.description,
+    post.description
   );
   const [valueBody, setValueBody] = useState<string | undefined>(post.body);
   const theme = useThemeStore((state) => state.theme);
@@ -46,9 +47,13 @@ export default function EditFormPost({ post, tags }: Props) {
     }
   }
 
+  const changeStatus = (val: boolean) => {
+    setStatus(val ? 1 : 0);
+  };
+
   const [errorMessage, formAction, isPending] = useActionState(
     updatePost,
-    undefined,
+    undefined
   );
 
   return (
@@ -222,16 +227,22 @@ export default function EditFormPost({ post, tags }: Props) {
 
           {/* status */}
           <div className="mb-4">
-            <label htmlFor="status">Status</label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
+                <span>Status</span>
+                <ButtonCheckBox
+                  status={post.status}
+                  changeStatus={changeStatus}
+                />
                 <input
                   id="status"
                   name="status"
-                  type="checkbox"
+                  type="text"
                   value={status}
-                  onChange={() => setStatus(status == 1 ? 0 : 1)}
-                  defaultChecked={post.status ? true : false}
+                  readOnly
+                  hidden
+                  // onChange={() => setStatus(status == 1 ? 0 : 1)}
+                  // defaultChecked={post.status ? true : false}
                 />
               </div>
             </div>
