@@ -23,18 +23,19 @@ export default function EditFormPost({ post, tags }: Props) {
   const [title, setTitle] = useState(post.title);
   const [status, setStatus] = useState<number>(post.status);
   const [image, setImage] = useState(
-    post.image_url ? `/${post.image_url}` : ""
+    post.image_url ? `/${post.image_url}` : "",
   );
   const [selectedOption, setSelectedOption] = useState<string[]>(
-    post.tags?.split(",") as string[]
+    post.tags?.split(",") as string[],
   );
   const [isOpen, setIsOpen] = useState(false);
-  const [val, setVal] = useState("");
+  const [valModal, setValModal] = useState("");
   const [valueDesc, setValueDesc] = useState<string | undefined>(
-    post.description
+    post.description,
   );
   const [valueBody, setValueBody] = useState<string | undefined>(post.body);
   const theme = useThemeStore((state) => state.theme);
+  const [slugTitle, setSlugTitle] = useState(post.slug);
 
   function handler(e: string) {
     if (selectedOption.includes(e)) {
@@ -53,7 +54,7 @@ export default function EditFormPost({ post, tags }: Props) {
 
   const [errorMessage, formAction, isPending] = useActionState(
     updatePost,
-    undefined
+    undefined,
   );
 
   return (
@@ -73,7 +74,10 @@ export default function EditFormPost({ post, tags }: Props) {
                   name="title"
                   type="text"
                   defaultValue={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => {
+                    setSlugTitle(slug(e.target.value));
+                    setTitle(e.target.value);
+                  }}
                   placeholder="Enter title"
                   className="input-style"
                   required
@@ -95,7 +99,8 @@ export default function EditFormPost({ post, tags }: Props) {
                   name="slug"
                   type="text"
                   placeholder="Enter slug"
-                  defaultValue={slug(title)}
+                  value={slugTitle}
+                  onChange={(e) => setSlugTitle(slug(e.target.value))}
                   className="input-style"
                   required
                 />
@@ -275,8 +280,8 @@ export default function EditFormPost({ post, tags }: Props) {
               onClose={() => setIsOpen(false)}
               title="Add new tag"
               handler={handler}
-              val={val}
-              setVal={setVal}
+              val={valModal}
+              setVal={setValModal}
             />
           )}
         </AnimatePresence>

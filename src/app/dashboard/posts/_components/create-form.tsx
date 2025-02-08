@@ -20,6 +20,7 @@ export default function CreateFormPost({ tags }: { tags: Tags[] }) {
   const [valueDesc, setValueDesc] = useState("");
   const [valueBody, setValueBody] = useState("");
   const [status, setStatus] = useState(1);
+  const [slugTitle, setSlugTitle] = useState("");
 
   const theme = useThemeStore((state) => state.theme);
 
@@ -29,7 +30,7 @@ export default function CreateFormPost({ tags }: { tags: Tags[] }) {
 
   const [errorMessage, formAction, isPending] = useActionState(
     createPost,
-    undefined
+    undefined,
   );
 
   function handler(evalue: string) {
@@ -59,7 +60,10 @@ export default function CreateFormPost({ tags }: { tags: Tags[] }) {
                   name="title"
                   type="text"
                   defaultValue={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => {
+                    setSlugTitle(slug(e.target.value));
+                    setTitle(e.target.value);
+                  }}
                   placeholder="Enter title"
                   className="input-style"
                   required
@@ -81,7 +85,8 @@ export default function CreateFormPost({ tags }: { tags: Tags[] }) {
                   name="slug"
                   type="text"
                   placeholder="Enter slug"
-                  defaultValue={slug(title)}
+                  value={slugTitle}
+                  onChange={(e) => setSlugTitle(slug(e.target.value))}
                   className="input-style"
                   required
                 />
