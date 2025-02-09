@@ -10,6 +10,7 @@ export async function fetchFilteredPosts(query: string, currentPage: number) {
             WHERE 
               body LIKE '%${query}%' OR
               title LIKE '%${query}%' OR
+              tags LIKE '%${query}%' OR
               slug LIKE '%${query}%'
             ORDER BY created_at DESC
             LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}

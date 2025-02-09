@@ -85,6 +85,10 @@ export default async function PostsTable({ posts }: { posts: Post[] }) {
                   Body
                 </th>
 
+                <th scope="col" className="px-3 py-5 font-medium ">
+                  Tags
+                </th>
+
                 <th scope="col" className="px-3 py-5 font-medium">
                   Created at
                 </th>
@@ -124,6 +128,8 @@ export default async function PostsTable({ posts }: { posts: Post[] }) {
                   <td className="whitespace-normal px-3 py-3 ">
                     {post.body.slice(0, 50)}...
                   </td>
+
+                  <td className="whitespace-normal px-3 py-3 ">{post.tags}</td>
 
                   <td className="whitespace-normal px-3 py-3">
                     {post.created_at}

@@ -6,6 +6,7 @@ import { fetchCountPosts } from "@/lib/fetchPost";
 import "./style.css";
 import { fetchFilteredPosts } from "@/lib/fetchPost";
 import type { Post } from "@/types/post";
+import { Sidebar } from "./ui/sidebar";
 
 export default async function MainPage(props: {
   searchParams?: Promise<{
@@ -32,7 +33,9 @@ export default async function MainPage(props: {
         <div className="border-b-2 border-gray-600"></div>
 
         <div className="flex gap-8 py-10">
-          <div className="sm:basis-3/12 sm:block hidden">sidebar</div>
+          <div className="sm:basis-3/12 sm:block hidden">
+            <Sidebar />
+          </div>
           <div className="sm:basis-9/12">
             <Suspense key={query + currentPage} fallback={<h2>Loading...</h2>}>
               <AllPosts posts={posts} />
